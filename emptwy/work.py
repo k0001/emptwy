@@ -192,7 +192,7 @@ if __name__ == '__main__':
         log_level = logging.FATAL
     else:
         log_level = logging.INFO
-    logging.basicConfig(level=log_level)
+    logging.basicConfig(level=log_level, format="%(levelname)s:%(asctime)s:%(message)s")
 
 
     log.info(u"Attempting to delete {:d} tweets from user {:s} at page {:d}" \
