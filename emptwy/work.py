@@ -120,6 +120,8 @@ def delete_tweets_page(oauth_client_builder, screen_name, num_workers=5, **kwarg
 
     q.join()  # block until all tasks are done
 
+    return len(statuses)
+
 
 def parse_args():
     import argparse
@@ -224,9 +226,13 @@ if __name__ == '__main__':
             access_token_key=access_token_key,
             access_token_secret=access_token_secret)
 
-    delete_tweets_page(oauth_client_builder,
-                       screen_name=args.twitter_screen_name,
-                       include_rts=args.twitter_delete_retweets,
-                       page=args.twitter_statuses_page,
-                       count=args.twitter_statuses_count,
-                       num_workers=args.num_workers)
+    num = delete_tweets_page(oauth_client_builder,
+                             screen_name=args.twitter_screen_name,
+                             include_rts=args.twitter_delete_retweets,
+                             page=args.twitter_statuses_page,
+                             count=args.twitter_statuses_count,
+                             num_workers=args.num_workers)
+    if num == 0:
+        log.info(u"Nothing to delete")
+    else:
+        log.info(u"{:d} tweets deleted".format(num))
